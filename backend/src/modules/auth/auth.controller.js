@@ -4,13 +4,13 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 export const registerUser = async (req, res) => {
   try {
-    const { error } = registerSchema.validate(req.body);
+    const { error, value } = registerSchema.validate(req.body);
     if (error) {
       return res.status(400).json({
         message: error.message,
       });
     }
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role } = value;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -37,13 +37,13 @@ export const registerUser = async (req, res) => {
 };
 export const LoginUser = async (req, res) => {
   try {
-    const { error } = loginSchema.validate(req.body);
+    const { error, value } = loginSchema.validate(req.body);
     if (error) {
       return res.status(400).json({
         message: error.message,
       });
     }
-    const { email, password } = req.body;
+    const { email, password } = value;
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
