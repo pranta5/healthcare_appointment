@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const fetchme = async () => {
     try {
       const res = await axios_instance.get("/auth/me");
-      setUser(res.data.user);
+      setUser(res.data.data);
     } catch {
       setUser(null);
     } finally {

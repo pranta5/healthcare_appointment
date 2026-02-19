@@ -8,7 +8,7 @@ export const useLogin = (setUser) => {
       return res.data;
     },
     onSuccess: (data) => {
-      setUser(data.user);
+      setUser(data.data);
     },
   });
 };
