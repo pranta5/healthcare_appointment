@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import User from "../user/user.model.js";
 
-export const setAvailability = async (req, res) => {
+export const setAvailability = async (req, res, next) => {
   try {
     const { isDoctorAvailable } = req.body;
     const doctor_id = new mongoose.Types.ObjectId(req.user.id);
@@ -21,11 +21,6 @@ export const setAvailability = async (req, res) => {
       data: doctor,
     });
   } catch (error) {
-    console.error(`Availability updatation failed ${error}`);
-
-    return res.status(400).json({
-      success: false,
-      message: ` Availability updatation failed `,
-    });
+    next(error);
   }
 };

@@ -1,6 +1,6 @@
 import User from "./user.model.js";
 
-export const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res, next) => {
   try {
     const allUsers = await User.find();
 
@@ -10,11 +10,6 @@ export const getAllUsers = async (req, res) => {
       data: allUsers,
     });
   } catch (error) {
-    console.error("failed to get all user", error);
-
-    return res.status(400).json({
-      success: false,
-      message: "failed to get all users",
-    });
+    next(error);
   }
 };

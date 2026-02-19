@@ -6,7 +6,7 @@ import {
 } from "./appointment.validation.js";
 import User from "../user/user.model.js";
 
-export const createAppointment = async (req, res) => {
+export const createAppointment = async (req, res, next) => {
   try {
     const { error, value } = createAppointmentSchema.validate(req.body);
     if (error) {
@@ -45,13 +45,10 @@ export const createAppointment = async (req, res) => {
       data: appointment,
     });
   } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: `appointment creation failed ${error}`,
-    });
+    next(error);
   }
 };
-export const getMyAppointment = async (req, res) => {
+export const getMyAppointment = async (req, res, next) => {
   try {
     let appointmentDetails;
     const id = req.user.id;
@@ -118,13 +115,10 @@ export const getMyAppointment = async (req, res) => {
       data: appointmentDetails,
     });
   } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: ` appointment not fetched ${error}`,
-    });
+    next(error);
   }
 };
-export const getAllAppointment = async (req, res) => {
+export const getAllAppointment = async (req, res, next) => {
   try {
     let pipeline = [
       {
@@ -177,13 +171,10 @@ export const getAllAppointment = async (req, res) => {
       data: appointments,
     });
   } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: `All appointment not fetched ${error}`,
-    });
+    next(error);
   }
 };
-export const updateAppointmentStatus = async (req, res) => {
+export const updateAppointmentStatus = async (req, res, next) => {
   try {
     const { error, value } = updateStatusSchema.validate(req.body);
     if (error) {
@@ -226,9 +217,6 @@ export const updateAppointmentStatus = async (req, res) => {
       data: appointment,
     });
   } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: ` appointment status updatation failed`,
-    });
+    next(error);
   }
 };

@@ -2,7 +2,7 @@ import User from "../user/user.model.js";
 import { loginSchema, registerSchema } from "./auth.validation.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res, next) => {
   try {
     const { error, value } = registerSchema.validate(req.body);
     if (error) {
@@ -29,13 +29,10 @@ export const registerUser = async (req, res) => {
       .status(200)
       .json({ success: true, message: "user registered", data: user });
   } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: `failed to register users${error}`,
-    });
+    next(error);
   }
 };
-export const LoginUser = async (req, res) => {
+export const LoginUser = async (req, res, next) => {
   try {
     const { error, value } = loginSchema.validate(req.body);
     if (error) {
@@ -74,23 +71,17 @@ export const LoginUser = async (req, res) => {
       data: user,
     });
   } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: `failed to login users${error}`,
-    });
+    next(error);
   }
 };
 
-export const logout = async (req, res) => {
+export const logout = async (req, res, next) => {
   try {
     res.clearCookie("token");
     return res.status(200).json({
       message: "logged out",
     });
   } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: `failed to logout users${error}`,
-    });
+    next(error);
   }
 };
