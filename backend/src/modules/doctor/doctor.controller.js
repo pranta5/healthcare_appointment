@@ -1,6 +1,26 @@
 import mongoose from "mongoose";
 import User from "../user/user.model.js";
 
+export const allDoctor = async (req, res, next) => {
+  try {
+    const doctor = await User.find({ role: "doctor" }).select("-password");
+
+    if (!doctor) {
+      return res.status(400).json({
+        success: false,
+        message: ` Doctor not found `,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: ` all doctor fetched `,
+      data: doctor,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const setAvailability = async (req, res, next) => {
   try {
     const { isDoctorAvailable } = req.body;

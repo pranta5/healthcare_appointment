@@ -98,11 +98,12 @@ export const getCurrentUser = async (req, res, next) => {
     }
     return res.status(200).json({
       success: true,
-      user: {
+      data: {
         id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
+        isDoctorAvailable: user.isDoctorAvailable,
       },
     });
   } catch (error) {

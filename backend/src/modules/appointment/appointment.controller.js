@@ -206,6 +206,22 @@ export const updateAppointmentStatus = async (req, res, next) => {
           message: "Only pending appointments can be cancelled",
         });
       }
+
+      if (status !== "Cancelled") {
+        return res.status(403).json({
+          success: false,
+          message: "Patient can only cancel appointment",
+        });
+      }
+    }
+    if (isDoctor && req.user.role === "doctor") {
+      const allowed = ["Approved", "Rejected", "Completed"];
+      if (!allowed.includes(status)) {
+        return res.status(403).json({
+          success: false,
+          message: "Invalid status update by doctor",
+        });
+      }
     }
     appointment.status = status;
 
@@ -215,6 +231,73 @@ export const updateAppointmentStatus = async (req, res, next) => {
       success: true,
       message: ` appointment status updated`,
       data: appointment,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAvailableSlot = async (req, res, next) => {
+  try {
+    const { doctor, date } = req.query;
+    if (!doctor || !date) {
+      return res.status(403).json({
+        success: false,
+        message: "Doctor and Date are required",
+      });
+    }
+    const selectedDate = new Date(date);
+    if (isNaN(selectedDate)) {
+      return res.status(403).json({
+        success: false,
+        message: "invalid Date format",
+      });
+    }
+    const day = selectedDate.getDay();
+    if (day === 0 || day === 6) {
+      return res.status(403).json({
+        success: false,
+        message: "Appointments allowed only Monday to Friday",
+      });
+    }
+
+    const user = await User.findById(doctor);
+
+    if (!user) {
+      return res.status(403).json({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
+    if (!user.isDoctorAvailable) {
+      return res.status(200).json({
+        success: true,
+        slots: [],
+      });
+    }
+    const staticSlots = [
+      "10:00 AM",
+      "11:00 AM",
+      "12:00 PM",
+      "01:00 PM",
+      "02:00 PM",
+      "03:00 PM",
+      "04:00 PM",
+      "05:00 PM",
+    ];
+    const bookedAppointment = await Appointment.find({
+      doctor,
+      date: selectedDate,
+    }).select("time");
+    const bookedTimes = bookedAppointment.map((a) => a.time);
+
+    const availableSlots = staticSlots.filter(
+      (slot) => !bookedTimes.includes(slot),
+    );
+
+    return res.status(200).json({
+      success: true,
+      slots: availableSlots,
     });
   } catch (error) {
     next(error);
