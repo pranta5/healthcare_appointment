@@ -1,4 +1,4 @@
-Healthcare Appointment System (MERN)
+# Healthcare Appointment System (MERN)
 
 A full-stack Healthcare Appointment System built using the MERN stack.
 The system supports three roles:
@@ -9,10 +9,11 @@ The system supports three roles:
 
 - Patient
 
-The application implements authentication, role-based authorization, appointment booking, and availability management.
+The application implements authentication, role-based authorization, appointment booking, and doctor availability management.
 
-Tech Stack
-Backend
+# Tech Stack
+
+### Backend
 
 - Node.js
 
@@ -26,7 +27,7 @@ Backend
 
 - bcrypt (Password hashing)
 
-Frontend
+### Frontend
 
 - React (Vite)
 
@@ -40,7 +41,7 @@ Frontend
 
 - React Toastify
 
-Backend Architecture
+### Backend Architecture
 
 - Controller → Handles request & response
 
@@ -50,7 +51,7 @@ Backend Architecture
 
 - Modular structure → Feature-based organization
 
-Frontend Architecture
+### Frontend Architecture
 
 - React Query for server state
 
@@ -62,7 +63,7 @@ Frontend Architecture
 
 - Tailwind for styling
 
-\*\*Backend Setup
+### Backend Setup
 
 1. Navigate to backend folder:
    ```bash
@@ -76,7 +77,7 @@ Frontend Architecture
    ```bash
    MONGODB_URL=
    PORT = 8080
-   FRONTEND_URL = "http://localhost:5173"
+   FRONTEND_URL =
     JWT_SECRET=
     JWT_EXPIRE = '1d'
     COOKIE_EXPIRE = 864000000
@@ -88,7 +89,7 @@ Frontend Architecture
    npm run dev
    ```
 
-   \*\*Frontend Setup
+   ### Frontend Setup
 
 5. Navigate to frontend folder:
    ```bash
@@ -103,7 +104,7 @@ Frontend Architecture
     npm run dev
    ```
 
-\*\*Authentication Flow
+## Authentication Flow
 
 - JWT stored in HTTP-only cookie
 
@@ -113,7 +114,7 @@ Frontend Architecture
 
 - RoleRoute restricts role-based dashboards
 
-Patient
+### Patient
 
 - View all doctors
 
@@ -125,9 +126,9 @@ Patient
 
 - View appointment history
 
-Doctor
+### Doctor
 
-- Toggle availability
+- Set availability
 
 - View appointment requests
 
@@ -140,26 +141,27 @@ Admin
 - View all users
 
 - View all appointments
+- change Role to Doctor/Patient
 
-Assumptions Made
+## Assumptions Made
 
-1. Doctor working days are fixed:
+#### 1. Doctor working days are fixed:
 
 - Monday to Friday
 
 - 10:00 AM – 5:00 PM
 
-2. Only:
+#### 2. Only:
 
 - Patient can cancel (if Pending)
 
 - Doctor can Approve/Reject/Complete
 
-- Admin has read-only access
+- admin can change Role to Doctor/Patient.
 
-3. One appointment per doctor per time slot.
+#### 3. One appointment per doctor per time slot.
 
-4. Date validation:
+#### 4. Date validation:
 
 - Past dates are not allowed.
 
