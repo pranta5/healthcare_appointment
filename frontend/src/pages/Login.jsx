@@ -100,7 +100,7 @@ const Login = () => {
           {/* Submit button */}
           <button
             type="submit"
-            disabled={loginMutation.isLoading}
+            disabled={loginMutation.isPending}
             className={`
               w-full py-2.5 px-4 
               font-medium text-white 
@@ -111,7 +111,7 @@ const Login = () => {
               disabled:opacity-60 disabled:cursor-not-allowed
             `}
           >
-            {loginMutation.isLoading ? "Signing in..." : "Sign In"}
+            {loginMutation.isPending ? "Signing in..." : "Sign In"}
           </button>
 
           {/* Server error */}

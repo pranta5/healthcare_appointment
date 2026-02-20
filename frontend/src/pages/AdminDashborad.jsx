@@ -40,7 +40,7 @@ const AdminDashboard = () => {
       toast.success("Role updated successfully");
       queryClient.invalidateQueries({ queryKey: ["allUsers"] });
     },
-    onError: () => {
+    onError: (error) => {
       toast.error(error.response?.data?.message || "Failed to update Role");
     },
   });

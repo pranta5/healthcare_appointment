@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const PatientDashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-
+  // fetch my appointment
   const {
     data: appointments = [],
     isLoading,
@@ -19,7 +19,7 @@ const PatientDashboard = () => {
       return res.data.data || [];
     },
   });
-
+  // cancel appointment
   const cancelMutation = useMutation({
     mutationFn: async (id) => {
       return axios_instance.patch(`/appointment/${id}/status`, {

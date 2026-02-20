@@ -141,7 +141,7 @@ const Register = () => {
           {/* Submit */}
           <button
             type="submit"
-            disabled={registerMutation.isLoading}
+            disabled={registerMutation.isPending}
             className={`
               w-full py-2.5 px-4 
               font-medium text-white 
@@ -152,7 +152,7 @@ const Register = () => {
               disabled:opacity-60 disabled:cursor-not-allowed
             `}
           >
-            {registerMutation.isLoading ? "Creating account..." : "Sign Up"}
+            {registerMutation.isPending ? "Creating account..." : "Sign Up"}
           </button>
 
           {/* Server error */}
