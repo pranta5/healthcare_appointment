@@ -62,7 +62,7 @@ Frontend Architecture
 
 - Tailwind for styling
 
-Backend Setup
+\*\*Backend Setup
 
 1. Navigate to backend folder:
    ```bash
@@ -83,11 +83,13 @@ Backend Setup
     NODE_ENV = "development"
    ```
 4. Start the server:
-   ````bash
+
+   ```bash
    npm run dev
-    ```
-   Frontend Setup
-   ````
+   ```
+
+   \*\*Frontend Setup
+
 5. Navigate to frontend folder:
    ```bash
    cd frontend
@@ -97,11 +99,11 @@ Backend Setup
     npm install
    ```
 7. Start the development server:
-   ````bash
+   ```bash
     npm run dev
-    ```
-   Authentication Flow
-   ````
+   ```
+
+\*\*Authentication Flow
 
 - JWT stored in HTTP-only cookie
 

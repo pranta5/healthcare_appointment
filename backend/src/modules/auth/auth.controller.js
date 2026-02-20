@@ -10,7 +10,7 @@ export const registerUser = async (req, res, next) => {
         message: error.message,
       });
     }
-    const { name, email, password, role } = value;
+    const { name, email, password } = value;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -23,7 +23,7 @@ export const registerUser = async (req, res, next) => {
       name,
       email,
       password: hasedPassword,
-      role,
+      role: "patient",
     });
     return res
       .status(200)

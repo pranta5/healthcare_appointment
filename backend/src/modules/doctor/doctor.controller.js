@@ -44,3 +44,37 @@ export const setAvailability = async (req, res, next) => {
     next(error);
   }
 };
+
+export const setRoleDoctor = async (req, res, next) => {
+  try {
+    const { role } = req.body;
+    const { id } = req.params;
+    if (!["doctor", "patient"].includes(role)) {
+      return res.status(400).json({
+        message: "Invalid role",
+      });
+    }
+    const user = await User.findById(id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+    if (req.user.id === user._id.toString()) {
+      return res.status(400).json({
+        message: "You cannot change your own role",
+      });
+    }
+
+    user.role = role;
+    await user.save();
+    return res.status(200).json({
+      success: true,
+      message: "Role updated successfully",
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

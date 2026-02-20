@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const DoctorDashboard = () => {
   const { user, setUser } = useAuth();
   const queryClient = useQueryClient();
-
+  //all appointment
   const { data: appointments = [], isLoading } = useQuery({
     queryKey: ["doctorAppointments"],
     queryFn: async () => {
@@ -14,7 +14,7 @@ const DoctorDashboard = () => {
       return res.data.data || [];
     },
   });
-
+  //update status
   const statusMutation = useMutation({
     mutationFn: async ({ id, status }) => {
       return axios_instance.patch(`/appointment/${id}/status`, { status });
@@ -25,7 +25,7 @@ const DoctorDashboard = () => {
     },
     onError: () => toast.error("Failed to update status"),
   });
-
+  //set available
   const availabilityMutation = useMutation({
     mutationFn: async (isDoctorAvailable) => {
       return axios_instance.patch("/doctor/isavailable", { isDoctorAvailable });

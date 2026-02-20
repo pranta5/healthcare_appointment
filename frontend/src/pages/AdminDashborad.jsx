@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios_instance from "../api/axiosInstance";
 import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
+  const queryClient = useQueryClient();
+
   // All Users
   const { data: users, isLoading: usersLoading } = useQuery({
     queryKey: ["allUsers"],
@@ -26,6 +28,20 @@ const AdminDashboard = () => {
       toast.error(
         error.response?.data?.message || "Failed to load appointments",
       );
+    },
+  });
+
+  //setDoctor
+  const setRoleMutation = useMutation({
+    mutationFn: async ({ id, role }) => {
+      return axios_instance.patch(`/doctor/role/${id}`, { role });
+    },
+    onSuccess: () => {
+      toast.success("Role updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["allUsers"] });
+    },
+    onError: () => {
+      toast.error(error.response?.data?.message || "Failed to update Role");
     },
   });
 
@@ -70,6 +86,33 @@ const AdminDashboard = () => {
                       `}
                     >
                       {u.role}
+                    </span>
+                    <span>
+                      {u.role === "admin" ? null : u.role === "patient" ? (
+                        <button
+                          className="text-xs text-slate-950 hover:bg-red-400 bg-red-200 flex items-center gap-1 mt-2 border rounded px-4 py-1"
+                          onClick={() =>
+                            setRoleMutation.mutate({
+                              id: u._id,
+                              role: "doctor",
+                            })
+                          }
+                        >
+                          set to Doctor
+                        </button>
+                      ) : (
+                        <button
+                          className="text-xs text-indigo-600 hover:bg-indigo-200 flex items-center gap-1 mt-2 border rounded px-4 py-1 bg-indigo-100"
+                          onClick={() =>
+                            setRoleMutation.mutate({
+                              id: u._id,
+                              role: "patient",
+                            })
+                          }
+                        >
+                          set to Patient
+                        </button>
+                      )}
                     </span>
                   </p>
                 </div>
